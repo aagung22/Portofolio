@@ -9,10 +9,8 @@ import FooterSection from './components/Footer.vue'
     <div class="edge-glow" aria-hidden="true"></div>
 
     <!-- Skip to content -->
-    <a
-      href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-black focus:rounded-lg"
-    >
+    <a href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-black focus:rounded-lg">
       Lewati ke konten utama
     </a>
 

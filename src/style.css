@@ -1,8 +1,51 @@
 @import "tailwindcss";
 
-/* ── Dark Theme inspired by daf2a.com ── */
+/* ── Aktifkan dark mode via class .dark (bukan media query) ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ══════════════════════════════════════════
+   LIGHT THEME (default) — inspired by daf2a.com
+   ══════════════════════════════════════════ */
 @theme {
-  /* Deep dark palette */
+  /* Backgrounds */
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #f4f4f5;
+  --color-bg-muted: #ececef;
+  --color-bg-card: #ffffff;
+  --color-bg-card-hover: #f8f8fa;
+  --color-bg-nav: rgba(255, 255, 255, 0.85);
+
+  /* Borders */
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-subtle: rgba(0, 0, 0, 0.04);
+  --color-border-hover: rgba(0, 0, 0, 0.16);
+
+  /* Text */
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #a1a1aa;
+  --color-text-highlight: #0284c7;
+
+  /* Accent */
+  --color-accent: #0284c7;
+  --color-accent-hover: #0369a1;
+  --color-accent-dim: #3b82f6;
+
+  /* Tags */
+  --color-tag-bg: rgba(0, 0, 0, 0.04);
+  --color-tag-border: rgba(0, 0, 0, 0.08);
+  --color-tag-text: #52525b;
+
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ══════════════════════════════════════════
+   DARK THEME (override saat .dark aktif)
+   ══════════════════════════════════════════ */
+.dark {
+  /* Deep dark palette inspired by daf2a.com */
   --color-bg-primary: #0a0a0f;
   --color-bg-secondary: #0f0f18;
   --color-bg-muted: #141420;
@@ -26,9 +69,6 @@
   --color-tag-bg: rgba(255, 255, 255, 0.06);
   --color-tag-border: rgba(255, 255, 255, 0.1);
   --color-tag-text: #a0a0b8;
-
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 /* ── Base ── */
@@ -53,6 +93,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
@@ -68,11 +109,11 @@ body {
   background: var(--color-bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-border-hover);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color-text-muted);
 }
 
 /* ── Edge Glow Effect (like daf2a.com) ── */
@@ -127,6 +168,7 @@ body {
   border-radius: 9999px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-link {
@@ -326,7 +368,7 @@ body {
 }
 
 .btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-tag-bg);
   color: var(--color-text-primary);
 }
 
