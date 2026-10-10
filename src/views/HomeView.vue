@@ -8,9 +8,9 @@ const university = 'Universitas Dr. Soetomo Surabaya'
 // ✏️ EDIT: Your work experiences
 const experiences = [
   {
-    prefix: 'Currently working as',
-    role: 'Frontend Developer',
-    at: 'Tech Company',
+    prefix: 'Currently Learning as',
+    role: 'AI Full-Stack Developer',
+    at: 'Dicoding',
   },
   {
     prefix: 'Previously worked as',
