@@ -6,6 +6,7 @@ import { useLocale } from '@/composables/useLocale'
 
 const route = useRoute()
 const mobileOpen = ref(false)
+const isScrolled = ref(false) 
 
 // Theme & Locale
 const { isDark, toggleTheme } = useTheme()
@@ -18,9 +19,18 @@ const links = computed(() => [
   { label: t('nav.portfolio'), to: '/portfolio' },
 ])
 
+// ✅ Hapus isHome. Navbar disembunyikan saat scroll di SEMUA halaman, 
+// kecuali saat mobile menu sedang terbuka.
+const hideNav = computed(() => isScrolled.value && !mobileOpen.value)
+
 // Tutup mobile menu saat resize ke desktop
 const onResize = () => {
   if (window.innerWidth >= 768) mobileOpen.value = false
+}
+
+// ✅ Listener scroll
+const onScroll = () => {
+  isScrolled.value = window.scrollY > 24
 }
 
 // Cegah body scroll saat mobile menu terbuka
@@ -33,21 +43,32 @@ watch(
   () => route.path,
   () => {
     mobileOpen.value = false
+    isScrolled.value = false // ✅ reset saat pindah halaman
   }
 )
 
 onMounted(() => {
   window.addEventListener('resize', onResize)
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll() // sync kondisi awal
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize)
+  window.removeEventListener('scroll', onScroll)
   document.body.style.overflow = ''
 })
 </script>
 
 <template>
-  <nav class="fixed top-4 left-0 right-0 z-50 flex justify-center pt-4" aria-label="Navigasi utama">
+  <nav
+    class="fixed top-4 left-0 right-0 z-50 flex justify-center pt-4 transition-all duration-300 ease-out"
+    :class="hideNav
+      ? 'opacity-0 -translate-y-8 pointer-events-none'
+      : 'opacity-100 translate-y-0'"
+    aria-label="Navigasi utama"
+    :aria-hidden="hideNav"
+  >
     <div class="nav-pill">
       <!-- Desktop Links -->
       <div class="hidden md:flex items-center">
@@ -67,14 +88,14 @@ onUnmounted(() => {
         <!-- Toggle Theme (matahari / bulan) -->
         <button type="button" class="btn-ghost p-2 rounded-full" :aria-label="t('nav.toggleTheme')"
           :title="isDark ? t('theme.light') : t('theme.dark')" @click="toggleTheme">
-          <!-- Sun icon (muncul saat dark → klik untuk ke light) -->
+          <!-- Sun icon -->
           <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
             stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4" />
             <path
               d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
           </svg>
-          <!-- Moon icon (muncul saat light → klik untuk ke dark) -->
+          <!-- Moon icon -->
           <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
             stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
